@@ -1,11 +1,11 @@
 package com.example.simplesolfege.logic
 
-enum class Note(val freq: Double) {
-    C(523.0),
-    D(587.0),
-    E(659.0),
-    F(698.0),
-    G(783.0),
-    A(880.0),
-    B(987.0)
+enum class Note(val freq: Float) {
+    C(261.63f),
+    D(293.66f),
+    E(329.63f),
+    F(349.23f),
+    G(392.00f),
+    A(440.00f),
+    B(493.88f)
 }

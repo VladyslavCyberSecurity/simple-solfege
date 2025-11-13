@@ -3,31 +3,33 @@ package com.example.simplesolfege.audio
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import kotlin.concurrent.thread
 import kotlin.math.sin
 
-object ToneGenerator {
+class ToneGenerator {
 
-    private const val sampleRate = 44100
+    fun playTone(frequency: Float, durationMs: Int = 300) {
+        thread {
+            val count = (44100 * (durationMs / 1000f)).toInt()
+            val audioData = ShortArray(count)
 
-    fun playTone(frequency: Double, durationMs: Int = 300) {
-        val count = (sampleRate * (durationMs / 1000.0)).toInt()
-        val sound = ShortArray(count)
+            val angularFrequency = 2.0 * Math.PI * frequency / 44100
 
-        for (i in 0 until count) {
-            val angle = 2.0 * Math.PI * i * frequency / sampleRate
-            sound[i] = (sin(angle) * Short.MAX_VALUE).toInt().toShort()
+            for (i in 0 until count) {
+                audioData[i] = (sin(i * angularFrequency) * Short.MAX_VALUE).toInt().toShort()
+            }
+
+            val audioTrack = AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                44100,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                audioData.size * 2,
+                AudioTrack.MODE_STATIC
+            )
+
+            audioTrack.write(audioData, 0, audioData.size)
+            audioTrack.play()
         }
-
-        val audioTrack = AudioTrack(
-            AudioManager.STREAM_MUSIC,
-            sampleRate,
-            AudioFormat.CHANNEL_OUT_MONO,
-            AudioFormat.ENCODING_PCM_16BIT,
-            sound.size * 2,
-            AudioTrack.MODE_STATIC
-        )
-
-        audioTrack.write(sound, 0, sound.size)
-        audioTrack.play()
     }
 }

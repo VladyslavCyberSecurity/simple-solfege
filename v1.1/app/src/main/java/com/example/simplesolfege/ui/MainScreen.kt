@@ -76,10 +76,11 @@ fun MainScreen() {
         Spacer(Modifier.height(12.dp))
 
         // STAFF
-        MultiNoteStaff(
-            notes = if (expectedNote != null) listOf(expectedNote!!) else emptyList(),
+        NewNoteStaff(
+            note = expectedNote,
             highlight = answerCorrect
         )
+
 
         Spacer(Modifier.height(12.dp))
 

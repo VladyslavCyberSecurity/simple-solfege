@@ -11,15 +11,13 @@ import com.example.simplesolfege.ui.theme.AppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-
             AppTheme {
 
-                var splash by remember { mutableStateOf(true) }
+                var showSplash by remember { mutableStateOf(true) }
 
-                if (splash)
-                    SplashScreen { splash = false }
+                if (showSplash)
+                    SplashScreen { showSplash = false }
                 else
                     MainScreen()
             }

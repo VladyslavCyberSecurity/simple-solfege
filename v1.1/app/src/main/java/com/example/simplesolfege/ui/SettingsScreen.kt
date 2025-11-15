@@ -3,42 +3,73 @@ package com.example.simplesolfege.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.simplesolfege.logic.MusicScale
 import com.example.simplesolfege.logic.Settings
 
 @Composable
-fun SettingsScreen(settings: Settings, onChange: (Settings) -> Unit) {
+fun SettingsScreen(
+    settings: Settings,
+    onUpdate: (Settings) -> Unit,
+    onBack: () -> Unit
+) {
 
-    var scale by remember { mutableStateOf(settings.scale) }
-    var sound by remember { mutableStateOf(settings.soundEnabled) }
-    var adsr by remember { mutableStateOf(settings.adsrEnabled) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+    ) {
 
-    Column(modifier = Modifier.padding(24.dp)) {
+        Text("Settings", style = MaterialTheme.typography.headlineMedium)
 
-        Text("Settings", style = MaterialTheme.typography.headlineSmall)
+        Spacer(Modifier.height(24.dp))
 
-        Spacer(Modifier.height(20.dp))
+        // Octave
+        Text("Octave", color = MaterialTheme.colorScheme.onBackground)
+        Slider(
+            value = settings.octave.toFloat(),
+            onValueChange = {
+                onUpdate(settings.copy(octave = it.toInt()))
+            },
+            steps = 3,
+            valueRange = 2f..5f
+        )
 
+        Spacer(Modifier.height(24.dp))
+
+
+        // Scale
         Text("Scale")
-        Spacer(Modifier.height(6.dp))
-        DropdownMenu(
-            expanded = false,
-            onDismissRequest = {}
-        ) {}
-
-        Spacer(Modifier.height(20.dp))
-
-        Row {
-            Checkbox(checked = sound, onCheckedChange = { sound = it })
-            Text("Enable sound")
+        MusicScale.values().forEach { scale ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(
+                    selected = settings.scale == scale,
+                    onClick = { onUpdate(settings.copy(scale = scale)) }
+                )
+                Text(scale.title)
+            }
         }
 
-        Row {
-            Checkbox(checked = adsr, onCheckedChange = { adsr = it })
-            Text("Soft ADSR")
+        Spacer(Modifier.height(24.dp))
+
+        // Sound
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = settings.soundEnabled,
+                onCheckedChange = { onUpdate(settings.copy(soundEnabled = it)) }
+            )
+            Text("Sound enabled")
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        Button(
+            onClick = onBack,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Back")
         }
     }
-
-    onChange(Settings(scale, sound, adsr))
 }

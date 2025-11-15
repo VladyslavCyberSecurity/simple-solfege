@@ -6,24 +6,15 @@ data class LevelState(
     val nextXp: Int = 50
 )
 
-fun addXp(state: LevelState, gained: Int): LevelState {
-    var xp = state.xp + gained
-    var level = state.level
-    var next = state.nextXp
-
-    while (xp >= next) {
-        xp -= next
-        level++
-
-        next = when (level) {
-            1 -> 50
-            2 -> 75
-            3 -> 100
-            4 -> 130
-            5 -> 170
-            else -> 200 + (level - 5) * 40
-        }
+fun addXp(state: LevelState, amount: Int): LevelState {
+    val newXp = state.xp + amount
+    return if (newXp >= state.nextXp) {
+        LevelState(
+            level = state.level + 1,
+            xp = newXp - state.nextXp,
+            nextXp = (state.nextXp * 1.2f).toInt()  // кожен рівень потребує більше XP
+        )
+    } else {
+        state.copy(xp = newXp)
     }
-
-    return LevelState(level, xp, next)
 }

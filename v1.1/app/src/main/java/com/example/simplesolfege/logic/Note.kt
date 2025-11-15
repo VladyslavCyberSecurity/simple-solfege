@@ -1,20 +1,16 @@
 package com.example.simplesolfege.logic
 
-enum class Note(
-    val label: String,
-    val frequency: Int,
-    val isWhite: Boolean
-) {
-    C("C", 261, true),
-    C_SHARP("C#", 277, false),
-    D("D", 293, true),
-    D_SHARP("D#", 311, false),
-    E("E", 329, true),
-    F("F", 349, true),
-    F_SHARP("F#", 370, false),
-    G("G", 392, true),
-    G_SHARP("G#", 415, false),
-    A("A", 440, true),
-    A_SHARP("A#", 466, false),
-    B("B", 494, true)
+enum class Note(val frequency: Int) {
+    C(261),
+    C_SHARP(277),
+    D(293),
+    D_SHARP(311),
+    E(329),
+    F(349),
+    F_SHARP(370),
+    G(392),
+    G_SHARP(415),
+    A(440),
+    A_SHARP(466),
+    B(493)
 }

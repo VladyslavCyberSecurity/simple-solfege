@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.example.simplesolfege.audio.MelodyGenerator
 import com.example.simplesolfege.audio.ToneGenerator
 import com.example.simplesolfege.logic.*
 import com.example.simplesolfege.ui.components.*
@@ -20,8 +21,12 @@ fun MainScreen() {
     val tone = ToneGenerator()
 
     var selectedTab by remember { mutableStateOf(0) }
+
     var notePos by remember { mutableStateOf(0.50f) }
+
     var levelState by remember { mutableStateOf(LevelState()) }
+
+    var currentMelody by remember { mutableStateOf(emptyList<Note>()) }
 
     Box(
         modifier = Modifier
@@ -39,10 +44,12 @@ fun MainScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // ВЕРХ
             TopBar()
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // ТАБИ
             TopTabs(
                 tabs = listOf("Melody", "Intervals", "Rhythm"),
                 selectedIndex = selectedTab,
@@ -51,10 +58,12 @@ fun MainScreen() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // НОТНИЙ СТАН
             NoteStaff(notePosition = notePos)
 
             Spacer(modifier = Modifier.height(28.dp))
 
+            // ПІАНІНО
             PianoKeys { note ->
                 tone.play(note.frequency)
                 notePos = noteToPosition(note)
@@ -63,15 +72,57 @@ fun MainScreen() {
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            ActionButtons()
+            // КНОПКИ
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+
+                // Generate
+                Button(
+                    onClick = {
+                        val melody = MelodyGenerator().generate(C_MAJOR, 4)
+                        currentMelody = melody
+
+                        if (melody.isNotEmpty()) {
+                            notePos = noteToPosition(melody.first())
+                        }
+                    },
+                    modifier = Modifier.width(140.dp),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text("Generate")
+                }
+
+                // Replay
+                OutlinedButton(
+                    onClick = {
+                        currentMelody.forEach { note ->
+                            tone.play(note.frequency)
+                        }
+                    },
+                    modifier = Modifier.width(140.dp),
+                    shape = RoundedCornerShape(24.dp)
+                ) {
+                    Text("Replay")
+                }
+            }
 
             Spacer(modifier = Modifier.height(28.dp))
 
+            // ІНДИКАТОР
             BottomIndicator(active = 2)
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text("Accuracy", color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f))
+            Text(
+                "Accuracy",
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
+            )
+
             Text(
                 "Level: ${levelState.level} • XP: ${levelState.xp}/${levelState.nextXp}",
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
@@ -80,6 +131,7 @@ fun MainScreen() {
     }
 }
 
+// Переводимо ноту у вертикальну позицію
 fun noteToPosition(note: Note): Float {
     return when (note) {
         Note.C -> 0.18f
@@ -89,6 +141,6 @@ fun noteToPosition(note: Note): Float {
         Note.G -> 0.56f
         Note.A -> 0.70f
         Note.B -> 0.84f
-        else -> 0.5f
+        else -> 0.50f
     }
 }

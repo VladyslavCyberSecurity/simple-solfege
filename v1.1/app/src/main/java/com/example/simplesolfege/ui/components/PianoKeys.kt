@@ -69,7 +69,7 @@ fun PianoKeys(onNoteClick: (Note) -> Unit) {
                     if (note == null) {
                         Spacer(modifier = Modifier.width(48.dp))
                     } else {
-                        PianoBlackKey(note) { onNoteClick(it) }
+                        AnimatedBlackKey(note) { onNoteClick(it) }
                     }
                 }
             }

@@ -46,6 +46,9 @@ MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.9.4] C:\Users\Ad
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.9.4] C:\Users\Admin\.gradle\caches\8.13\transforms\320d859c6acb8a0d09e1b5a25164c7fe\transformed\lifecycle-viewmodel-savedstate-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Admin\.gradle\caches\8.13\transforms\4739b54102502c2edf80655b6bc83d6f\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Admin\.gradle\caches\8.13\transforms\42ea9fd256dc28ace034f2a05c1bc3ae\transformed\core-ktx-1.17.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\4fdfa891487c10f532d294be25c3c71f\transformed\datastore-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\a362f9a2d42078be4664e06173f6bcf9\transformed\datastore-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\8526981827c6429737c33fb90b86618b\transformed\datastore-preferences-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Admin\.gradle\caches\8.13\transforms\c4216bbdc708c71415fd3eea5cd91294\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Admin\.gradle\caches\8.13\transforms\4d69a4d2dba225737fd0e0bbf77c6c03\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Admin\.gradle\caches\8.13\transforms\2860560d78af6b5894a64ddc3c2ac2c5\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -211,6 +214,12 @@ MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Adm
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Admin\.gradle\caches\8.13\transforms\4739b54102502c2edf80655b6bc83d6f\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
 MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Admin\.gradle\caches\8.13\transforms\42ea9fd256dc28ace034f2a05c1bc3ae\transformed\core-ktx-1.17.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.17.0] C:\Users\Admin\.gradle\caches\8.13\transforms\42ea9fd256dc28ace034f2a05c1bc3ae\transformed\core-ktx-1.17.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\4fdfa891487c10f532d294be25c3c71f\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\4fdfa891487c10f532d294be25c3c71f\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\a362f9a2d42078be4664e06173f6bcf9\transformed\datastore-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\a362f9a2d42078be4664e06173f6bcf9\transformed\datastore-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\8526981827c6429737c33fb90b86618b\transformed\datastore-preferences-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\Admin\.gradle\caches\8.13\transforms\8526981827c6429737c33fb90b86618b\transformed\datastore-preferences-release\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Admin\.gradle\caches\8.13\transforms\c4216bbdc708c71415fd3eea5cd91294\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Admin\.gradle\caches\8.13\transforms\c4216bbdc708c71415fd3eea5cd91294\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Admin\.gradle\caches\8.13\transforms\4d69a4d2dba225737fd0e0bbf77c6c03\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44

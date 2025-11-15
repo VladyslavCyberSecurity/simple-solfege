@@ -7,8 +7,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 import com.example.simplesolfege.audio.MelodyGenerator
 import com.example.simplesolfege.audio.ToneGenerator
 import com.example.simplesolfege.logic.*
@@ -18,129 +21,147 @@ import com.example.simplesolfege.ui.theme.CardDark
 @Composable
 fun MainScreen() {
 
+    val scope = rememberCoroutineScope()
     val tone = ToneGenerator()
 
+    // Таби зверху
     var selectedTab by remember { mutableStateOf(0) }
 
-    var notePos by remember { mutableStateOf(0.50f) }
+    // Поточна мелодія (4 ноти)
+    var melody by remember { mutableStateOf<List<Note>>(emptyList()) }
+    var currentIndex by remember { mutableStateOf(0) }
 
+    // Перевірка
+    var expectedNote by remember { mutableStateOf<Note?>(null) }
+    var answerCorrect by remember { mutableStateOf<Boolean?>(null) }
+
+    // Система рівнів
     var levelState by remember { mutableStateOf(LevelState()) }
 
-    var currentMelody by remember { mutableStateOf(emptyList<Note>()) }
+    // Екран завершення
+    var lessonComplete by remember { mutableStateOf(false) }
 
-    Box(
+    if (lessonComplete) {
+        LessonCompleteScreen(
+            level = levelState.level,
+            xp = levelState.xp,
+            onNext = {
+                melody = emptyList()
+                currentIndex = 0
+                expectedNote = null
+                answerCorrect = null
+                lessonComplete = false
+            }
+        )
+        return
+    }
+
+    // -------- UI ---------
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
+            .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(32.dp))
-                .background(CardDark)
-                .padding(horizontal = 20.dp, vertical = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        // Tabs
+        TopTabs(
+            tabs = listOf("Melody", "Intervals", "Rhythm"),
+            selectedIndex = selectedTab,
+            onSelect = { selectedTab = it }
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        // STAFF
+        MultiNoteStaff(
+            notes = if (expectedNote != null) listOf(expectedNote!!) else emptyList(),
+            highlight = answerCorrect
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        // KEYBOARD
+        PianoKeys(
+            expected = expectedNote,
+            wasCorrect = answerCorrect,
+            onNoteClick = { note ->
+
+                // Програти звук
+                tone.play(note.frequency)
+
+                val expected = expectedNote ?: return@PianoKeys
+
+                scope.launch {
+                    if (note == expected) {
+                        answerCorrect = true
+                        delay(300)
+
+                        // XP
+                        levelState = addXp(levelState, amount = 10)
+
+                        currentIndex++
+
+                        // Завершення мелодії
+                        if (currentIndex >= melody.size) {
+                            lessonComplete = true
+                        } else {
+                            expectedNote = melody[currentIndex]
+                        }
+
+                        answerCorrect = null
+                    } else {
+                        answerCorrect = false
+                        delay(350)
+                        answerCorrect = null
+                    }
+                }
+            }
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        // BUTTONS
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
         ) {
 
-            // ВЕРХ
-            TopBar()
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // ТАБИ
-            TopTabs(
-                tabs = listOf("Melody", "Intervals", "Rhythm"),
-                selectedIndex = selectedTab,
-                onSelect = { selectedTab = it }
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // НОТНИЙ СТАН
-            NoteStaff(notePosition = notePos)
-
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // ПІАНІНО
-            PianoKeys { note ->
-                tone.play(note.frequency)
-                notePos = noteToPosition(note)
-                levelState = addXp(levelState, 5)
-            }
-
-            Spacer(modifier = Modifier.height(36.dp))
-
-            // КНОПКИ
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-
-                // Generate
-                Button(
-                    onClick = {
-                        val melody = MelodyGenerator().generate(C_MAJOR, 4)
-                        currentMelody = melody
-
-                        if (melody.isNotEmpty()) {
-                            notePos = noteToPosition(melody.first())
-                        }
-                    },
-                    modifier = Modifier.width(140.dp),
-                    shape = RoundedCornerShape(24.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+            Button(
+                onClick = {
+                    melody = MelodyGenerator().generate(
+                        scale = C_MAJOR,
+                        length = 4
                     )
-                ) {
-                    Text("Generate")
-                }
-
-                // Replay
-                OutlinedButton(
-                    onClick = {
-                        currentMelody.forEach { note ->
-                            tone.play(note.frequency)
-                        }
-                    },
-                    modifier = Modifier.width(140.dp),
-                    shape = RoundedCornerShape(24.dp)
-                ) {
-                    Text("Replay")
-                }
+                    currentIndex = 0
+                    expectedNote = melody.firstOrNull()
+                    answerCorrect = null
+                },
+                shape = RoundedCornerShape(22.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFF4A8BFF)),
+                modifier = Modifier.width(140.dp)
+            ) {
+                Text("Generate")
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // ІНДИКАТОР
-            BottomIndicator(active = 2)
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                "Accuracy",
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
-            )
-
-            Text(
-                "Level: ${levelState.level} • XP: ${levelState.xp}/${levelState.nextXp}",
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-            )
+            OutlinedButton(
+                onClick = {
+                    if (expectedNote != null) tone.play(expectedNote!!.frequency)
+                },
+                shape = RoundedCornerShape(22.dp),
+                modifier = Modifier.width(140.dp)
+            ) {
+                Text("Replay")
+            }
         }
-    }
-}
 
-// Переводимо ноту у вертикальну позицію
-fun noteToPosition(note: Note): Float {
-    return when (note) {
-        Note.C -> 0.18f
-        Note.D -> 0.28f
-        Note.E -> 0.36f
-        Note.F -> 0.45f
-        Note.G -> 0.56f
-        Note.A -> 0.70f
-        Note.B -> 0.84f
-        else -> 0.50f
+        Spacer(Modifier.height(18.dp))
+
+        Text(
+            text = "Level: ${levelState.level}   XP: ${levelState.xp}/${levelState.nextXp}",
+            color = Color.White.copy(0.8f)
+        )
     }
 }

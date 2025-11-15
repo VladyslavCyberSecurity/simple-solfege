@@ -1,76 +1,70 @@
 package com.example.simplesolfege.ui.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Text
 import com.example.simplesolfege.logic.Note
 import com.example.simplesolfege.ui.theme.KeyWhite
 import com.example.simplesolfege.ui.theme.CardDark
 
 @Composable
-fun PianoKeys(onNoteClick: (Note) -> Unit) {
-
+fun PianoKeys(
+    expected: Note?,
+    wasCorrect: Boolean?,
+    onNoteClick: (Note) -> Unit
+) {
     val whiteKeys = listOf(
         Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B
     )
-
     val blackKeys = listOf(
-        Note.C_SHARP, Note.D_SHARP,
-        null,
-        Note.F_SHARP, Note.G_SHARP, Note.A_SHARP
+        Note.C_SHARP, Note.D_SHARP, null, Note.F_SHARP, Note.G_SHARP, Note.A_SHARP, null
     )
 
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp),
-        shape = RoundedCornerShape(32.dp),
-        color = CardDark,
-        shadowElevation = 14.dp
+            .padding(8.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(CardDark)
+            .padding(16.dp)
     ) {
+
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 14.dp, vertical = 22.dp)
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp)
         ) {
 
-            // БІЛІ КЛАВІШІ
+            // WHITE KEYS
             Row(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.Bottom
             ) {
-                whiteKeys.forEach { note ->
-                    PianoWhiteKey(note) { onNoteClick(it) }
-                }
+                whiteKeys.forEach { note -> WhiteKey(note, expected, wasCorrect, onNoteClick) }
             }
 
-            // ЧОРНІ КЛАВІШІ
+            // BLACK KEYS (POSITIONED ABOVE)
             Row(
-                modifier = Modifier
+                Modifier
                     .fillMaxWidth()
-                    .padding(start = 18.dp, top = 0.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .height(120.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.Top
             ) {
                 blackKeys.forEach { note ->
-                    if (note == null) {
-                        Spacer(modifier = Modifier.width(48.dp))
-                    } else {
-                        AnimatedBlackKey(note) { onNoteClick(it) }
-                    }
+                    if (note != null) BlackKey(note, expected, wasCorrect, onNoteClick)
+                    else Spacer(modifier = Modifier.width(30.dp))
                 }
             }
         }
@@ -78,55 +72,60 @@ fun PianoKeys(onNoteClick: (Note) -> Unit) {
 }
 
 @Composable
-fun PianoWhiteKey(
+private fun WhiteKey(
     note: Note,
-    onPress: (Note) -> Unit
+    expected: Note?,
+    wasCorrect: Boolean?,
+    onClick: (Note) -> Unit
 ) {
-    var pressed by remember { mutableStateOf(false) }
+    val baseColor = KeyWhite
 
-    val h by animateDpAsState(if (pressed) 142.dp else 150.dp)
-    val shadow by animateDpAsState(if (pressed) 2.dp else 6.dp)
+    val highlightColor =
+        when {
+            wasCorrect == true && note == expected -> Color(0xFF2ECC71)
+            wasCorrect == false && note == expected -> Color(0xFFE74C3C)
+            else -> baseColor
+        }
+
+    val animatedColor by animateColorAsState(highlightColor)
+    val pressAnim by animateDpAsState(if (note == expected && wasCorrect != null) 4.dp else 0.dp)
 
     Box(
         modifier = Modifier
-            .width(48.dp)
-            .height(h)
-            .shadow(shadow, RoundedCornerShape(12.dp))
-            .background(KeyWhite, RoundedCornerShape(12.dp))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                pressed = true
-                onPress(note)
-                pressed = false
-            }
+            .width(45.dp)
+            .fillMaxHeight()
+            .padding(horizontal = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(animatedColor)
+            .offset(y = pressAnim)
+            .clickable { onClick(note) }
     )
 }
 
 @Composable
-fun PianoBlackKey(
+private fun BlackKey(
     note: Note,
-    onPress: (Note) -> Unit
+    expected: Note?,
+    wasCorrect: Boolean?,
+    onClick: (Note) -> Unit
 ) {
-    var pressed by remember { mutableStateOf(false) }
+    val highlightColor =
+        when {
+            wasCorrect == true && note == expected -> Color(0xFF2ECC71)
+            wasCorrect == false && note == expected -> Color(0xFFE74C3C)
+            else -> Color.Black
+        }
 
-    val h by animateDpAsState(if (pressed) 94.dp else 104.dp)
-    val shadow by animateDpAsState(if (pressed) 6.dp else 14.dp)
+    val animatedColor by animateColorAsState(highlightColor)
+    val pressAnim by animateDpAsState(if (note == expected && wasCorrect != null) 3.dp else 0.dp)
 
     Box(
         modifier = Modifier
             .width(32.dp)
-            .height(h)
-            .shadow(shadow, RoundedCornerShape(8.dp))
-            .background(Color.Black, RoundedCornerShape(8.dp))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                pressed = true
-                onPress(note)
-                pressed = false
-            }
+            .height(110.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .background(animatedColor)
+            .offset(y = pressAnim)
+            .clickable { onClick(note) }
     )
 }

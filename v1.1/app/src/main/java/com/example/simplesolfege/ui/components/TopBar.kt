@@ -17,6 +17,7 @@ fun TopBar() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         Text(
             text = "Simple Solfege",
             style = MaterialTheme.typography.headlineSmall,
@@ -25,7 +26,7 @@ fun TopBar() {
 
         Icon(
             imageVector = Icons.Default.Settings,
-            contentDescription = "Settings",
+            contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
         )
     }

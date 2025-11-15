@@ -1,23 +1,24 @@
 package com.example.simplesolfege.ui.components
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material3.Text
 import com.example.simplesolfege.logic.Note
 import com.example.simplesolfege.ui.theme.KeyWhite
-import com.example.simplesolfege.ui.theme.SurfaceNavy
-
+import com.example.simplesolfege.ui.theme.CardDark
 
 @Composable
 fun PianoKeys(onNoteClick: (Note) -> Unit) {
@@ -35,39 +36,25 @@ fun PianoKeys(onNoteClick: (Note) -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(190.dp),
-        shape = RoundedCornerShape(24.dp),
-        color = SurfaceNavy,
-        shadowElevation = 12.dp
+            .height(210.dp),
+        shape = RoundedCornerShape(32.dp),
+        color = CardDark,
+        shadowElevation = 14.dp
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 12.dp, vertical = 16.dp)
+                .padding(horizontal = 14.dp, vertical = 22.dp)
         ) {
 
             // БІЛІ КЛАВІШІ
             Row(
                 modifier = Modifier
                     .fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 whiteKeys.forEach { note ->
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Box(
-                            modifier = Modifier
-                                .width(46.dp)
-                                .height(150.dp)
-                                .shadow(4.dp, RoundedCornerShape(10.dp))
-                                .background(KeyWhite, RoundedCornerShape(10.dp))
-                                .clickable { onNoteClick(note) }
-                        )
-                        Text(
-                            text = note.label,
-                            fontSize = 11.sp,
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
-                        )
-                    }
+                    PianoWhiteKey(note) { onNoteClick(it) }
                 }
             }
 
@@ -75,24 +62,71 @@ fun PianoKeys(onNoteClick: (Note) -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 0.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                    .padding(start = 18.dp, top = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 blackKeys.forEach { note ->
                     if (note == null) {
-                        Spacer(modifier = Modifier.width(46.dp))
+                        Spacer(modifier = Modifier.width(48.dp))
                     } else {
-                        Box(
-                            modifier = Modifier
-                                .width(30.dp)
-                                .height(100.dp)
-                                .shadow(10.dp, RoundedCornerShape(6.dp))
-                                .background(Color.Black, RoundedCornerShape(6.dp))
-                                .clickable { onNoteClick(note) }
-                        )
+                        PianoBlackKey(note) { onNoteClick(it) }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun PianoWhiteKey(
+    note: Note,
+    onPress: (Note) -> Unit
+) {
+    var pressed by remember { mutableStateOf(false) }
+
+    val h by animateDpAsState(if (pressed) 142.dp else 150.dp)
+    val shadow by animateDpAsState(if (pressed) 2.dp else 6.dp)
+
+    Box(
+        modifier = Modifier
+            .width(48.dp)
+            .height(h)
+            .shadow(shadow, RoundedCornerShape(12.dp))
+            .background(KeyWhite, RoundedCornerShape(12.dp))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                pressed = true
+                onPress(note)
+                pressed = false
+            }
+    )
+}
+
+@Composable
+fun PianoBlackKey(
+    note: Note,
+    onPress: (Note) -> Unit
+) {
+    var pressed by remember { mutableStateOf(false) }
+
+    val h by animateDpAsState(if (pressed) 94.dp else 104.dp)
+    val shadow by animateDpAsState(if (pressed) 6.dp else 14.dp)
+
+    Box(
+        modifier = Modifier
+            .width(32.dp)
+            .height(h)
+            .shadow(shadow, RoundedCornerShape(8.dp))
+            .background(Color.Black, RoundedCornerShape(8.dp))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                pressed = true
+                onPress(note)
+                pressed = false
+            }
+    )
 }

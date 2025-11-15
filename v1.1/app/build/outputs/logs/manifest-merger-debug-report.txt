@@ -19,6 +19,7 @@ MERGED from [androidx.compose.ui:ui-text-android:1.7.0] C:\Users\Admin\.gradle\c
 MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\040262113e04031b88de34c013f8d436\transformed\ui-tooling-preview-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\7682dd168e189a3f59b265c50e911e59\transformed\ui-tooling-release\AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\5c04d762f90f9e5c3fd127ce4ad3f019\transformed\ui-graphics-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\f0548af2a89015ef619fc43c23334247\transformed\material-icons-extended-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\d38b02bf51b615c9db30bf51789e2031\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\b058f405a7c6d90590c20a625ce3cb5b\transformed\ui-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\e045ca48c5d053e289c0caee12d2e868\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:17:1-28:12
@@ -156,6 +157,8 @@ MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Admin\.gradl
 MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\7682dd168e189a3f59b265c50e911e59\transformed\ui-tooling-release\AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\5c04d762f90f9e5c3fd127ce4ad3f019\transformed\ui-graphics-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\5c04d762f90f9e5c3fd127ce4ad3f019\transformed\ui-graphics-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\f0548af2a89015ef619fc43c23334247\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\f0548af2a89015ef619fc43c23334247\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\d38b02bf51b615c9db30bf51789e2031\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\d38b02bf51b615c9db30bf51789e2031\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-android:1.7.0] C:\Users\Admin\.gradle\caches\8.13\transforms\b058f405a7c6d90590c20a625ce3cb5b\transformed\ui-release\AndroidManifest.xml:5:5-44

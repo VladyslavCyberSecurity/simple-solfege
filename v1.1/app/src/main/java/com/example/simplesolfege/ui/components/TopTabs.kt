@@ -3,7 +3,6 @@ package com.example.simplesolfege.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,17 +17,18 @@ fun TopTabs(
     onSelect: (Int) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             tabs.forEachIndexed { i, label ->
                 Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .weight(1f)
                         .clickable { onSelect(i) }
-                        .padding(vertical = 4.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(vertical = 4.dp)
                 ) {
                     Text(
                         text = label,
@@ -37,7 +37,9 @@ fun TopTabs(
                         else
                             MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
                     Box(
                         modifier = Modifier
                             .height(2.dp)
@@ -52,12 +54,7 @@ fun TopTabs(
                 }
             }
         }
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp),
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.15f),
-            thickness = 1.dp
-        )
+
+        Spacer(modifier = Modifier.height(4.dp))
     }
 }

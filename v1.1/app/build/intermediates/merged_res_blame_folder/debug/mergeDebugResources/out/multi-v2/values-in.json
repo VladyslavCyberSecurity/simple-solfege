@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.simplesolfege.app-mergeDebugResources-44:/values-in/values-in.xml",
+            "outputFile": "com.example.simplesolfege.app-mergeDebugResources-45:/values-in/values-in.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Admin\\.gradle\\caches\\8.13\\transforms\\b058f405a7c6d90590c20a625ce3cb5b\\transformed\\ui-release\\res\\values-in\\values-in.xml",

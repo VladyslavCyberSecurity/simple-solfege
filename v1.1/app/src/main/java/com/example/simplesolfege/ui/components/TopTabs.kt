@@ -3,9 +3,11 @@ package com.example.simplesolfege.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -15,30 +17,47 @@ fun TopTabs(
     selectedIndex: Int,
     onSelect: (Int) -> Unit
 ) {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        tabs.forEachIndexed { i, label ->
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable { onSelect(i) }
-                    .padding(vertical = 4.dp),
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = label,
-                    color = if (i == selectedIndex)
-                        MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
-                )
-                if (i == selectedIndex)
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            tabs.forEachIndexed { i, label ->
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onSelect(i) }
+                        .padding(vertical = 4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = label,
+                        color = if (i == selectedIndex)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Box(
                         modifier = Modifier
                             .height(2.dp)
-                            .width(40.dp)
-                            .background(MaterialTheme.colorScheme.primary)
+                            .width(48.dp)
+                            .background(
+                                if (i == selectedIndex)
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.onBackground.copy(alpha = 0f)
+                            )
                     )
+                }
             }
         }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.15f),
+            thickness = 1.dp
+        )
     }
 }

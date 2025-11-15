@@ -18,3 +18,4 @@ enum class Note(
     A_SHARP("A#", 466, false),
     B("B", 494, true)
 }
+    
